@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎓 AI Counsellor - Access Links</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 100%;
+            padding: 40px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+        }
+        .links-section {
+            margin-bottom: 30px;
+        }
+        .link-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .link-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .link-box:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+        .link-box a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1em;
+            flex: 1;
+        }
+        .link-box a:hover {
+            text-decoration: underline;
+        }
+        .copy-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.2s;
+        }
+        .copy-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        .status {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+        .status.online {
+            background: #4caf50;
+        }
+        .status.offline {
+            background: #ff9800;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .info-box {
+            background: #f5f5f5;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 30px;
+        }
+        .info-box h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .info-box ul {
+            list-style: none;
+            color: #666;
+            font-size: 0.95em;
+            line-height: 1.8;
+        }
+        .info-box li:before {
+            content: "✓ ";
+            color: #667eea;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        .emoji {
+            font-size: 1.2em;
+        }
+        .button-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 25px;
+        }
+        .action-btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.2s;
+            display: block;
+        }
+        .action-btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .action-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+        .action-btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+            border: 2px solid #667eea;
+        }
+        .action-btn-secondary:hover {
+            background: #e8e8e8;
+        }
+        .features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        .feature {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.9em;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><span class="emoji">🎓</span> AI Counsellor</h1>
+        <p class="subtitle">Study Abroad Guidance Platform</p>
+
+        <div class="links-section">
+            <div class="link-title">
+                <span class="status online"></span>
+                Local Access (Right Now)
+            </div>
+            <div class="link-box">
+                <a href="http://localhost:5173" target="_blank">
+                    Frontend: http://localhost:5173
+                </a>
+                <button class="copy-btn" onclick="copyToClipboard('http://localhost:5173')">Copy</button>
+            </div>
+            <div class="link-box">
+                <a href="http://localhost:8000/docs" target="_blank">
+                    API Docs: http://localhost:8000/docs
+                </a>
+                <button class="copy-btn" onclick="copyToClipboard('http://localhost:8000/docs')">Copy</button>
+            </div>
+        </div>
+
+        <div class="links-section">
+            <div class="link-title">
+                <span class="status offline"></span>
+                Global Access (After Deployment)
+            </div>
+            <div style="background: #fff3cd; padding: 15px; border-radius: 8px; border-left: 4px solid #ffc107; margin-bottom: 15px;">
+                <p style="color: #856404; font-size: 0.95em; margin: 0;">
+                    Follow the deployment guide to get your live links!
+                </p>
+            </div>
+            <div class="link-box" style="opacity: 0.6; cursor: not-allowed;">
+                <a style="cursor: not-allowed;">
+                    Frontend: https://your-frontend.vercel.app
+                </a>
+            </div>
+            <div class="link-box" style="opacity: 0.6; cursor: not-allowed;">
+                <a style="cursor: not-allowed;">
+                    Backend: https://your-backend.onrender.com
+                </a>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <h3><span class="emoji">⚡</span> Quick Start</h3>
+            <ul>
+                <li>Click on Frontend link above to access the app</li>
+                <li>Signup with any email/password to get started</li>
+                <li>Complete 4-step onboarding</li>
+                <li>Explore universities and chat with AI counsellor</li>
+            </ul>
+        </div>
+
+        <div class="features">
+            <div class="feature">✅ Full-Stack Ready</div>
+            <div class="feature">🤖 AI Powered</div>
+            <div class="feature">📱 Responsive</div>
+            <div class="feature">🚀 Production Ready</div>
+        </div>
+
+        <div class="button-group">
+            <a href="http://localhost:5173" target="_blank" class="action-btn action-btn-primary">
+                🚀 Open App
+            </a>
+            <a href="http://localhost:8000/docs" target="_blank" class="action-btn action-btn-secondary">
+                📚 API Docs
+            </a>
+        </div>
+
+        <div class="info-box" style="margin-top: 20px; background: #e8f5e9; border-left-color: #4caf50;">
+            <h3><span class="emoji">📝</span> For Deployment</h3>
+            <ul style="font-size: 0.9em;">
+                <li>See DEPLOYMENT_GUIDE_UPDATED.md in project root</li>
+                <li>Deploy backend to Render (5 minutes)</li>
+                <li>Deploy frontend to Vercel (3 minutes)</li>
+                <li>Get shareable links for both services</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Link copied to clipboard!');
+            });
+        }
+
+        // Check services status
+        async function checkStatus() {
+            try {
+                const response = await fetch('http://localhost:8000/', {mode: 'no-cors'});
+                console.log('Backend is running ✅');
+            } catch (e) {
+                console.log('Backend status check (might be normal if behind proxy)');
+            }
+        }
+
+        checkStatus();
+    </script>
+</body>
+</html>
