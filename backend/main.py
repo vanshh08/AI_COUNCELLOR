@@ -12,7 +12,7 @@ from datetime import datetime, timedelta
 from sqlalchemy import create_engine, Column, Integer, String, Boolean, Float, DateTime, JSON, ForeignKey, Text
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, Session, relationship
-import anthropic
+import google.generativeai as genai
 import os
 from jose import jwt
 import bcrypt
@@ -20,7 +20,10 @@ import bcrypt
 # ============ Configuration ============
 DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./counsellor.db")
 SECRET_KEY = os.getenv("SECRET_KEY", "your-secret-key-change-in-production")
-ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY", "")
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY", "AIzaSyBWGlLOFm28JeQI7t6jEOzR_qkC2-zdOoU")
+
+# Configure Google Generative AI
+genai.configure(api_key=GOOGLE_API_KEY)
 
 # ============ Database Setup ============
 engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False} if "sqlite" in DATABASE_URL else {})
@@ -319,9 +322,7 @@ def calculate_profile_strength(profile: UserProfile) -> Dict[str, str]:
 
 
 async def get_ai_response(user_message: str, user_profile: UserProfile, chat_history: List[Dict], db: Session) -> str:
-    """Get AI response using Claude API"""
-    
-    client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
+    """Get AI response using Google Generative AI (Gemini)"""
     
     # Build context
     profile_context = f"""
@@ -349,19 +350,28 @@ Your responsibilities:
 5. Create and manage to-do tasks
 6. Provide actionable guidance
 
-Be concise, specific, and action-oriented. Focus on helping the student make confident decisions."""
+Be concise, specific, and action-oriented. Focus on helping the student make confident decisions.
 
-    messages = [{"role": msg["role"], "content": msg["content"]} for msg in chat_history[-10:]]
-    messages.append({"role": "user", "content": user_message})
+Use emojis and formatting to make responses engaging and easy to read."""
+
+    # Build conversation history for Gemini
+    history_text = ""
+    for msg in chat_history[-10:]:
+        role = "User" if msg["role"] == "user" else "Assistant"
+        history_text += f"{role}: {msg['content']}\n\n"
+    
+    full_prompt = f"{system_prompt}\n\nConversation History:\n{history_text}\nUser: {user_message}\n\nAssistant:"
     
     try:
-        response = client.messages.create(
-            model="claude-sonnet-4-20250514",
-            max_tokens=1000,
-            system=system_prompt,
-            messages=messages
+        model = genai.GenerativeModel('gemini-1.5-flash')
+        response = model.generate_content(
+            full_prompt,
+            generation_config=genai.types.GenerationConfig(
+                max_output_tokens=1000,
+                temperature=0.7,
+            )
         )
-        return response.content[0].text
+        return response.text
     except Exception as e:
         print(f"AI Error: {e}")
         return "I'm sorry, I'm having trouble responding right now. Please try again."
