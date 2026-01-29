@@ -672,229 +672,80 @@ export default function AICountellorApp() {
 
   // Dashboard Component
   const Dashboard = () => {
-    const getProfileStrength = () => {
-      if (!profile) return { academics: 'weak', exams: 'weak', documents: 'weak' };
+  return (
+    <div className="min-h-screen bg-slate-100 flex">
       
-      const gpaNum = parseFloat(profile.gpa);
-      const academics = gpaNum >= 3.5 ? 'strong' : gpaNum >= 3.0 ? 'average' : 'weak';
-      const exams = profile.ielts === 'completed' && profile.gre === 'completed' ? 'strong' : 
-                    profile.ielts === 'completed' || profile.gre === 'completed' ? 'average' : 'weak';
-      const documents = profile.sopStatus === 'ready' ? 'strong' : 
-                       profile.sopStatus === 'draft' ? 'average' : 'weak';
-      
-      return { academics, exams, documents };
-    };
+      {/* Sidebar */}
+      <aside className="w-64 bg-white border-r">
+        <div className="p-6 border-b">
+          <h1 className="text-xl font-bold text-slate-700">
+            AI Counsellor
+          </h1>
+        </div>
 
-    const strength = getProfileStrength();
-    const stage = getCurrentStage();
+        <nav className="p-4 space-y-2">
+          <button
+            onClick={() => setCurrentView('dashboard')}
+            className="w-full text-left px-4 py-2 rounded-lg hover:bg-slate-100 text-slate-700"
+          >
+            Dashboard
+          </button>
 
-    return (
-      <div className="min-h-screen bg-gray-50">
-        <nav className="bg-white shadow-sm border-b">
-          <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <div className="flex items-center space-x-8">
-              <div className="flex items-center space-x-2">
-                <Target className="w-8 h-8 text-blue-600" />
-                <span className="text-xl font-bold">AI Counsellor</span>
-              </div>
-              <div className="flex space-x-1">
-                <button
-                  onClick={() => setCurrentView('dashboard')}
-                  className={`px-4 py-2 rounded-lg ${currentView === 'dashboard' ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-50'}`}
-                >
-                  <Home className="w-5 h-5" />
-                </button>
-                <button
-                  onClick={() => setCurrentView('ai-counsellor')}
-                  className={`px-4 py-2 rounded-lg ${currentView === 'ai-counsellor' ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-50'}`}
-                >
-                  <MessageSquare className="w-5 h-5" />
-                </button>
-                <button
-                  onClick={() => setCurrentView('universities')}
-                  className={`px-4 py-2 rounded-lg ${currentView === 'universities' ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-50'}`}
-                >
-                  <BookOpen className="w-5 h-5" />
-                </button>
-              </div>
-            </div>
-            <div className="flex items-center space-x-4">
-              <span className="text-gray-700">{user?.name}</span>
-              <button onClick={handleLogout} className="p-2 hover:bg-gray-100 rounded-lg">
-                <LogOut className="w-5 h-5 text-gray-600" />
-              </button>
-            </div>
-          </div>
+          <button
+            onClick={() => setCurrentView('ai-counsellor')}
+            className="w-full text-left px-4 py-2 rounded-lg hover:bg-slate-100 text-slate-700"
+          >
+            AI Chat
+          </button>
+
+          <button
+            onClick={() => setCurrentView('universities')}
+            className="w-full text-left px-4 py-2 rounded-lg hover:bg-slate-100 text-slate-700"
+          >
+            Universities
+          </button>
+
+          <button
+            onClick={handleLogout}
+            className="w-full text-left px-4 py-2 rounded-lg text-red-500 hover:bg-red-50"
+          >
+            Logout
+          </button>
         </nav>
+      </aside>
 
-        <div className="max-w-7xl mx-auto px-6 py-8">
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome back, {user?.name}!</h1>
-            <p className="text-gray-600">Here's your study-abroad journey progress</p>
+      {/* Main Content */}
+      <main className="flex-1 p-8">
+        <h2 className="text-2xl font-semibold text-slate-800 mb-6">
+          Welcome, {user?.name}
+        </h2>
+
+        <div className="grid md:grid-cols-3 gap-6">
+          <div className="bg-white p-6 rounded-xl shadow-sm">
+            <p className="text-slate-500 text-sm">Profile Status</p>
+            <p className="text-xl font-bold text-slate-800 mt-2">
+              {profile?.onboardingComplete ? "Completed" : "Incomplete"}
+            </p>
           </div>
 
-          <div className="grid lg:grid-cols-3 gap-6 mb-8">
-            <div className="lg:col-span-2 space-y-6">
-              {/* Current Stage */}
-              <div className="bg-white rounded-xl shadow-sm p-6 border">
-                <h2 className="text-xl font-semibold mb-4">Current Stage</h2>
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-2xl font-bold text-blue-600">{stage}</span>
-                  <TrendingUp className="w-8 h-8 text-blue-600" />
-                </div>
-                <div className="grid grid-cols-4 gap-2">
-                  <div className={`h-2 rounded ${stage.includes('Building') ? 'bg-blue-600' : 'bg-blue-200'}`} />
-                  <div className={`h-2 rounded ${stage.includes('Discovering') ? 'bg-blue-600' : 'bg-blue-200'}`} />
-                  <div className={`h-2 rounded ${stage.includes('Finalizing') ? 'bg-blue-600' : 'bg-blue-200'}`} />
-                  <div className={`h-2 rounded ${stage.includes('Preparing') ? 'bg-blue-600' : 'bg-blue-200'}`} />
-                </div>
-              </div>
+          <div className="bg-white p-6 rounded-xl shadow-sm">
+            <p className="text-slate-500 text-sm">Shortlisted Universities</p>
+            <p className="text-xl font-bold text-slate-800 mt-2">
+              {shortlistedUniversities.length}
+            </p>
+          </div>
 
-              {/* Profile Summary */}
-              <div className="bg-white rounded-xl shadow-sm p-6 border">
-                <h2 className="text-xl font-semibold mb-4">Profile Summary</h2>
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div>
-                    <p className="text-sm text-gray-600">Education</p>
-                    <p className="font-semibold">{profile?.degree} in {profile?.major}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-600">Target Degree</p>
-                    <p className="font-semibold">{profile?.targetDegree}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-600">Target Year</p>
-                    <p className="font-semibold">{profile?.targetYear}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-600">Budget Range</p>
-                    <p className="font-semibold">${profile?.budgetRange}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-600">Preferred Countries</p>
-                    <p className="font-semibold">{profile?.preferredCountries?.join(', ')}</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Profile Strength */}
-              <div className="bg-white rounded-xl shadow-sm p-6 border">
-                <h2 className="text-xl font-semibold mb-4">Profile Strength</h2>
-                <div className="space-y-4">
-                  <div>
-                    <div className="flex justify-between mb-2">
-                      <span className="text-gray-700">Academics</span>
-                      <span className={`font-semibold ${strength.academics === 'strong' ? 'text-green-600' : strength.academics === 'average' ? 'text-yellow-600' : 'text-red-600'}`}>
-                        {strength.academics.toUpperCase()}
-                      </span>
-                    </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
-                      <div className={`h-2 rounded-full ${strength.academics === 'strong' ? 'bg-green-600 w-full' : strength.academics === 'average' ? 'bg-yellow-600 w-2/3' : 'bg-red-600 w-1/3'}`} />
-                    </div>
-                  </div>
-                  <div>
-                    <div className="flex justify-between mb-2">
-                      <span className="text-gray-700">Exams</span>
-                      <span className={`font-semibold ${strength.exams === 'strong' ? 'text-green-600' : strength.exams === 'average' ? 'text-yellow-600' : 'text-red-600'}`}>
-                        {strength.exams.toUpperCase()}
-                      </span>
-                    </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
-                      <div className={`h-2 rounded-full ${strength.exams === 'strong' ? 'bg-green-600 w-full' : strength.exams === 'average' ? 'bg-yellow-600 w-2/3' : 'bg-red-600 w-1/3'}`} />
-                    </div>
-                  </div>
-                  <div>
-                    <div className="flex justify-between mb-2">
-                      <span className="text-gray-700">Documents</span>
-                      <span className={`font-semibold ${strength.documents === 'strong' ? 'text-green-600' : strength.documents === 'average' ? 'text-yellow-600' : 'text-red-600'}`}>
-                        {strength.documents.toUpperCase()}
-                      </span>
-                    </div>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
-                      <div className={`h-2 rounded-full ${strength.documents === 'strong' ? 'bg-green-600 w-full' : strength.documents === 'average' ? 'bg-yellow-600 w-2/3' : 'bg-red-600 w-1/3'}`} />
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Universities Status */}
-              <div className="bg-white rounded-xl shadow-sm p-6 border">
-                <h2 className="text-xl font-semibold mb-4">Universities</h2>
-                <div className="grid md:grid-cols-3 gap-4">
-                  <div className="text-center p-4 bg-blue-50 rounded-lg">
-                    <p className="text-3xl font-bold text-blue-600">{shortlistedUniversities.length}</p>
-                    <p className="text-sm text-gray-600 mt-1">Shortlisted</p>
-                  </div>
-                  <div className="text-center p-4 bg-green-50 rounded-lg">
-                    <p className="text-3xl font-bold text-green-600">{lockedUniversities.length}</p>
-                    <p className="text-sm text-gray-600 mt-1">Locked</p>
-                  </div>
-                  <div className="text-center p-4 bg-purple-50 rounded-lg">
-                    <p className="text-3xl font-bold text-purple-600">{todos.filter(t => t.completed).length}/{todos.length}</p>
-                    <p className="text-sm text-gray-600 mt-1">Tasks Done</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* To-Do List Sidebar */}
-            <div className="space-y-6">
-              <div className="bg-white rounded-xl shadow-sm p-6 border">
-                <h2 className="text-xl font-semibold mb-4">Your To-Do List</h2>
-                <div className="space-y-3">
-                  {todos.slice(0, 8).map(todo => (
-                    <div key={todo.id} className="flex items-start space-x-3">
-                      <button
-                        onClick={() => {
-                          setTodos(todos.map(t => 
-                            t.id === todo.id ? { ...t, completed: !t.completed } : t
-                          ));
-                        }}
-                        className="mt-1"
-                      >
-                        {todo.completed ? (
-                          <CheckCircle className="w-5 h-5 text-green-600" />
-                        ) : (
-                          <Circle className="w-5 h-5 text-gray-400" />
-                        )}
-                      </button>
-                      <div className="flex-1">
-                        <p className={`text-sm ${todo.completed ? 'line-through text-gray-500' : 'text-gray-700'}`}>
-                          {todo.title}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                <button
-                  onClick={() => setCurrentView('ai-counsellor')}
-                  className="w-full mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-                >
-                  Talk to AI Counsellor
-                </button>
-              </div>
-
-              {lockedUniversities.length === 0 && (
-                <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-6">
-                  <AlertCircle className="w-6 h-6 text-yellow-600 mb-2" />
-                  <h3 className="font-semibold text-yellow-900 mb-2">Action Required</h3>
-                  <p className="text-sm text-yellow-800 mb-4">
-                    You haven't locked any universities yet. Lock at least one university to unlock application guidance.
-                  </p>
-                  <button
-                    onClick={() => setCurrentView('universities')}
-                    className="w-full px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition"
-                  >
-                    Browse Universities
-                  </button>
-                </div>
-              )}
-            </div>
+          <div className="bg-white p-6 rounded-xl shadow-sm">
+            <p className="text-slate-500 text-sm">Pending Tasks</p>
+            <p className="text-xl font-bold text-slate-800 mt-2">
+              {todos.filter(t => !t.completed).length}
+            </p>
           </div>
         </div>
-      </div>
-    );
-  };
+      </main>
+    </div>
+  );
+};
 
   // AI Counsellor Chat Component
   const AICounsellor = () => {
